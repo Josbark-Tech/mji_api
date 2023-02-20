@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const { typeUserRoad } = require("./roads/typeuser.road");
+const { typeUserRoads } = require("./roads/typeuser.road");
+const { typeEventRoads } = require("./roads/typeevent.road");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get("/", async (req, res) => {
   res.send("Welcome to event server");
 });
 
-app.use("/typeuser", typeUserRoad)
+app.use("/typeuser", typeUserRoads);
+app.use("/typeevent", typeEventRoads);
 
 module.exports = app;
