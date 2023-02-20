@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Province extends Model {
+  class File_ticket extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,26 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Province.belongsTo(models.Country, {
+      models.File_ticket.belongsTo(models.Event, {
         foreignKey: {
           allowNull: false,
-          name: "country_id",
+          name: "event_id",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
-      models.Province.hasMany(models.City);
     }
   }
-  Province.init(
+  File_ticket.init(
     {
-      province_name: DataTypes.STRING,
-      country_id: DataTypes.INTEGER,
+      user_id: DataTypes.INTEGER,
+      event_id: DataTypes.INTEGER,
+      description: DataTypes.JSON,
     },
     {
       sequelize,
-      modelName: "Province",
+      modelName: "File_ticket",
     }
   );
-  return Province;
+  return File_ticket;
 };
