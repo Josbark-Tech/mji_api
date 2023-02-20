@@ -1,0 +1,46 @@
+{
+  "name": "API",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Bayekula-hb <hobedbayekula@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon",
+    "test": "jest --coverage",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|jsx|ts|tsx|json)\"",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
+    "validate": "npm-run-all --parallel check-format lint build",
+    "husky-install": "husky install"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dot-env": "^0.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "jest": "^27.2.5",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.4",
+    "mysql2": "^2.3.0",
+    "nodemon": "^2.0.13",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "sequelize": "^6.7.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
+    "chai": "^4.3.7",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-jest": "^27.2.1",
+    "husky": "^8.0.3",
+    "mocha": "^10.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.4",
+    "sequelize-cli": "^6.6.0",
+    "supertest": "^6.3.1"
+  }
+}
