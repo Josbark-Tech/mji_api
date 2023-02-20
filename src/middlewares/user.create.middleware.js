@@ -41,16 +41,25 @@ const validationMiddlewares = [
   body("sexe").notEmpty().withMessage("Cannot be empty").trim().escape(),
 ];
 
-userRegisteMiddleware.use(validationMiddlewares, (req, res, next) => {
-  let {
-    name_user,
-    lastname_user,
-    firstname,
-    sexe,
-    email,
-    phone_number,
-    password,
-  } = req.body;
+userRegisteMiddleware.use(validationMiddlewares, 
+  async (req, res, next) => {
+  if (req.body.password) {
+    await body('password_confirmation')
+      .equals(req.body.password)
+      .withMessage('passwords do not match')
+      .run(req);
+  }
+  next();}, 
+  (req, res, next) => {
+    let {
+      name_user,
+      lastname_user,
+      firstname,
+      sexe,
+      email,
+      phone_number,
+      password,
+    } = req.body;
   
   const errors = validationResult(req);
 

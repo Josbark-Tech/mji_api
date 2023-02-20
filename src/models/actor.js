@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
-      models.Actor.hasMany(models.Actors_event);
+      models.Actor.hasMany(models.Actors_event, {
+        foreignKey: 'actor_id'
+      });
     }
   }
   Actor.init(

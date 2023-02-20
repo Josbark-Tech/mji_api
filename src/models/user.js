@@ -18,10 +18,18 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
-      models.User.hasMany(models.Ticket);
-      models.User.hasMany(models.To_participate);
-      models.User.hasMany(models.Actors_event);
-      models.User.hasMany(models.Event);
+      models.User.hasMany(models.Ticket, {
+        foreignKey: 'user_id'
+      });
+      models.User.hasMany(models.To_participate, {
+        foreignKey: 'user_id'
+      });
+      models.User.hasMany(models.Actors_event, {
+        foreignKey: 'user_id'
+      });
+      models.User.hasMany(models.Event, {
+        foreignKey: 'user_id'
+      });
     }
   }
   User.init(

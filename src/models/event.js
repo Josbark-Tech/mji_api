@@ -31,10 +31,18 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
-      models.Event.hasMany(models.Ticket);
-      models.Event.hasMany(models.To_participate);
-      models.Event.hasMany(models.Actors_event);
-      models.Event.hasMany(models.File_ticket);
+      models.Event.hasMany(models.Ticket, {
+        foreignKey: 'event_id'
+      });
+      models.Event.hasMany(models.To_participate, {
+        foreignKey: 'event_id'
+      });
+      models.Event.hasMany(models.Actors_event, {
+        foreignKey: 'event_id'
+      });
+      models.Event.hasMany(models.File_ticket, {
+        foreignKey: 'event_id'
+      });
     }
   }
   Event.init(

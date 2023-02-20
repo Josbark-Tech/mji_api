@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { typeUserRoads } = require("./roads/typeuser.road");
 const { typeEventRoads } = require("./roads/typeevent.road");
+const { userRoads } = require("./roads/user.road");
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.get("/", async (req, res) => {
 
 app.use("/typeuser", typeUserRoads);
 app.use("/typeevent", typeEventRoads);
+app.use("/user", userRoads);
 
 module.exports = app;

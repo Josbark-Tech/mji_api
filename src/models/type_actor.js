@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Type_actor.hasMany(models.Actor);
+      models.Type_actor.hasMany(models.Actor, {
+        foreignKey: 'typeactor_id'
+      });
     }
   }
   Type_actor.init(

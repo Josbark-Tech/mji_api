@@ -1,9 +1,10 @@
 const express = require("express");
-const typeEventRegisteMiddleware = require("../create_typeevent/typeevent.create.middleware");
-const addTypeEvent = require("../create_typeevent/typeevent.create.controller");
+const typeEventRegisteMiddleware = require("../middlewares/typeevent.create.middleware");
+const { addTypeEvent, getAllTypeEvents } = require("../controllers");
 
 const typeEventRoads = express.Router();
 
+typeEventRoads.get("/all", getAllTypeEvents);
 typeEventRoads.post("/add",typeEventRegisteMiddleware, addTypeEvent);
 
 module.exports = { typeEventRoads };

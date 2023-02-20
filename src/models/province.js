@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
-      models.Province.hasMany(models.City);
+      models.Province.hasMany(models.City, {
+        foreignKey: 'province_id'
+      });
     }
   }
   Province.init(

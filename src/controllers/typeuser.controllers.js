@@ -30,4 +30,39 @@ const addTypeUser = async (req, res) => {
     }
   });
 };
-module.exports = addTypeUser;
+
+const getAllTypeUsers = async (req, res) => {
+  try {
+    res.status(200).send(
+      await Type_user.findAll({
+        attributes: {
+          exclude: ["deletedAt", "password"],
+          order: ["id", "DESC"],
+        },
+      })
+    );  
+  } catch (error) {
+    res.status(500).json({ erreur: "La requête a échouée, Veuillez tenter dans un instant" });
+  }
+};
+
+const getOneTypeUser = async (req, res) => {
+  const { id_typeevent } = res;
+  const typeUserFind = await Type_user.findOne({
+    where: { id: id_typeevent },
+    attributes: { exclude: ["id", "deletedAt", "password"] },
+  });
+  if (typeUserFind) {
+    res.status(200).json(typeUserFind);
+  } else {
+    res.status(400).json({
+      message: `Type user with ID ${id_typeevent} cannot be found  `,
+    });
+  }
+};
+
+module.exports = {
+  addTypeUser,
+  getAllTypeUsers,
+  getOneTypeUser,
+};

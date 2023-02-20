@@ -9,7 +9,7 @@ const addTypeEvent = async (req, res) => {
       });
       if (typeEventFind) {
         return res.status(400).json({
-          message: "Type_user already exists",
+          message: "Type event already exists",
         });
       } else {
         const typeEventCreated = await Type_event.create(res);
@@ -30,4 +30,35 @@ const addTypeEvent = async (req, res) => {
     }
   });
 };
-module.exports = addTypeEvent;
+
+const getAllTypeEvents = async (req, res) => {
+  res.status(200).send(
+    await Type_event.findAll({
+      attributes: {
+        exclude: ["deletedAt", "password"],
+        order: ["id", "DESC"],
+      },
+    })
+  );
+};
+
+const getOneTypeEvent = async (req, res) => {
+  const { id_typeevent } = res;
+  const typeEventFind = await Type_event.findOne({
+    where: { id: id_typeevent },
+    attributes: { exclude: ["id", "deletedAt", "password"] },
+  });
+  if (typeEventFind) {
+    res.status(200).json(typeEventFind);
+  } else {
+    res.status(400).json({
+      message: `Type user with ID ${id_typeevent} cannot be found  `,
+    });
+  }
+};
+
+module.exports = {
+  addTypeEvent,
+  getAllTypeEvents,
+  getOneTypeEvent,
+};
