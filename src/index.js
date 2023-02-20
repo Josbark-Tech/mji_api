@@ -3,11 +3,12 @@ const cors = require("cors");
 const { typeUserRoads } = require("./roads/typeuser.road");
 const { typeEventRoads } = require("./roads/typeevent.road");
 const { userRoads } = require("./roads/user.road");
+const { countryRoads } = require("./roads/country.road");
 
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3000", /.{5,6}\/\/lopango-info-.{8,}/,/.{5,6}\/\/dashboard-chef-oeuvre.{8,}/],
+  origin: ["http://localhost:3000"],
   credentials: true,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionSuccessStatus: 200,
@@ -26,5 +27,6 @@ app.get("/", async (req, res) => {
 app.use("/typeuser", typeUserRoads);
 app.use("/typeevent", typeEventRoads);
 app.use("/user", userRoads);
+app.use("/country", countryRoads);
 
 module.exports = app;
