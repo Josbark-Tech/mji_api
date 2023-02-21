@@ -4,6 +4,7 @@ const { typeUserRoads } = require("./roads/typeuser.road");
 const { typeEventRoads } = require("./roads/typeevent.road");
 const { userRoads } = require("./roads/user.road");
 const { countryRoads } = require("./roads/country.road");
+const { default: helmet } = require("helmet");
 
 const app = express();
 
@@ -14,7 +15,7 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-
+app.use(helmet());
 app.use(express.json({ limit: "3Mb" }));
 app.use(express.urlencoded({ limit: "3Mb", extended: false }));
 
