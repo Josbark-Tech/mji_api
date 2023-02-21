@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   Event.init(
     {
       name_event: DataTypes.STRING,
+      path_picture_event: DataTypes.STRING,
       number_place: DataTypes.INTEGER,
       number_ticket: DataTypes.INTEGER,
       tab_name_ticket: DataTypes.JSON,

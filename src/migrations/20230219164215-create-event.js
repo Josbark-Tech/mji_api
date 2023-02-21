@@ -12,6 +12,9 @@ module.exports = {
       name_event: {
         type: Sequelize.STRING,
       },
+      path_picture_event: {
+        type: Sequelize.STRING,
+      },
       number_place: {
         type: Sequelize.INTEGER,
       },
