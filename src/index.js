@@ -1,9 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { typeUserRoads } = require("./roads/typeuser.road");
-const { typeEventRoads } = require("./roads/typeevent.road");
-const { userRoads } = require("./roads/user.road");
-const { countryRoads } = require("./roads/country.road");
+const { typeUserRoads, typeEventRoads, userRoads, countryRoads, typeActorRoads } = require("./roads");
 const { default: helmet } = require("helmet");
 
 const app = express();
@@ -27,6 +24,7 @@ app.get("/", async (req, res) => {
 
 app.use("/typeuser", typeUserRoads);
 app.use("/typeevent", typeEventRoads);
+app.use("/typeactor", typeActorRoads);
 app.use("/user", userRoads);
 app.use("/country", countryRoads);
 
