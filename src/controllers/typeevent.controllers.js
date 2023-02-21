@@ -35,7 +35,7 @@ const getAllTypeEvents = async (req, res) => {
   res.status(200).send(
     await Type_event.findAll({
       attributes: {
-        exclude: ["deletedAt", "password"],
+        exclude: ["deletedAt", "createdAt", "updatedAt", "password"],
         order: ["id", "DESC"],
       },
     })
@@ -46,7 +46,7 @@ const getOneTypeEvent = async (req, res) => {
   const { id_typeevent } = res;
   const typeEventFind = await Type_event.findOne({
     where: { id: id_typeevent },
-    attributes: { exclude: ["id", "deletedAt", "password"] },
+    attributes: { exclude: ["deletedAt", "createdAt", "updatedAt"] },
   });
   if (typeEventFind) {
     res.status(200).json(typeEventFind);

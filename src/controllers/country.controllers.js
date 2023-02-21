@@ -36,7 +36,7 @@ const getAllCountries = async (req, res) => {
     res.status(200).send(
       await Country.findAll({
         attributes: {
-          exclude: ["createdAt", "updatedAt"],
+          exclude: ["deletedAt", "createdAt", "updatedAt"],
           order: ["id", "DESC"],
         },
       })

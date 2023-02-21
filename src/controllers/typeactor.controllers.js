@@ -3,23 +3,23 @@ const { Type_actor, sequelize } = require("../models");
 const addTypeActor = async (req, res) => {
   const result = await sequelize.transaction(async (t) => {
     try {
-      const { type_user } = res;
-      const typeUserFind = await Type_actor.findOne({
-        where: { type_user: type_user },
+      const { type_actor } = res;
+      const typeActorFind = await Type_actor.findOne({
+        where: { type_actor },
       });
-      if (typeUserFind) {
+      if (typeActorFind) {
         return res.status(400).json({
           message: "Type_actor already exists",
         });
       } else {
-        const typeUserCreated = await Type_actor.create(res);
-        if (typeUserCreated) {
+        const typeActorCreated = await Type_actor.create(res);
+        if (typeActorCreated) {
           return res.status(200).json({
-            message: `Type_actor ${typeUserCreated.type_user} created`,
+            message: `Type_actor ${typeActorCreated.type_actor} created`,
           });
         } else {
           return res.status(400).json({
-            message: "Error creating user, please try again",
+            message: "Error creating type actor, please try again",
           });
         }
       }
@@ -36,7 +36,7 @@ const getAllTypeActors = async (req, res) => {
     res.status(200).send(
       await Type_actor.findAll({
         attributes: {
-          exclude: ["deletedAt", "createdAt"],
+          exclude: ["deletedAt", "createdAt", "updatedAt"],
           order: ["id", "DESC"],
         },
       })
@@ -47,16 +47,16 @@ const getAllTypeActors = async (req, res) => {
 };
 
 const getOneTypeActor = async (req, res) => {
-  const { id_typeevent } = res;
-  const typeUserFind = await Type_actor.findOne({
-    where: { id: id_typeevent },
-    attributes: { exclude: ["id", "deletedAt", "createdAt"] },
+  const { id_typeactor } = res;
+  const typeActorFind = await Type_actor.findOne({
+    where: { id: id_typeactor },
+    attributes: { exclude: ["id", "deletedAt", "createdAt", "updatedAt"] },
   });
-  if (typeUserFind) {
-    res.status(200).json(typeUserFind);
+  if (typeActorFind) {
+    res.status(200).json(typeActorFind);
   } else {
     res.status(400).json({
-      message: `Type user with ID ${id_typeevent} cannot be found  `,
+      message: `Type actor with ID ${id_typeactor} cannot be found  `,
     });
   }
 };

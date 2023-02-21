@@ -1,10 +1,10 @@
 const express = require("express");
-const typeUserRegisteMiddleware = require("../middlewares/typeuser.create.middleware");
-const { addTypeUser, getAllTypeActors } = require("../controllers");
+const typeActorRegisteMiddleware = require("../middlewares/typeactor.create.middleware");
+const {getAllTypeActors, addTypeActor } = require("../controllers");
 
 const typeActorRoads = express.Router();
 
 typeActorRoads.get("/all", getAllTypeActors);
-typeActorRoads.post("/add",typeUserRegisteMiddleware, addTypeUser);
+typeActorRoads.post("/add",typeActorRegisteMiddleware, addTypeActor);
 
 module.exports = { typeActorRoads };
