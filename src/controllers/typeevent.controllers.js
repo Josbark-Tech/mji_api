@@ -35,7 +35,7 @@ const getAllTypeEvents = async (req, res) => {
   res.status(200).send(
     await Type_event.findAll({
       attributes: {
-        exclude: ["deletedAt", "createdAt", "updatedAt", "password"],
+        exclude: ["deletedAt", "createdAt", "updatedAt"],
         order: ["id", "DESC"],
       },
     })

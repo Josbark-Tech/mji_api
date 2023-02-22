@@ -1,10 +1,10 @@
 const express = require("express");
-const { getAllUsers, addUser } = require("../controllers");
+const { getAllEvents, addEvent } = require("../controllers");
 const  userRegisteMiddleware  = require("../middlewares/user.create.middleware");
 
 const eventRoads = express.Router();
 
-eventRoads.get("/all", getAllUsers);
-eventRoads.post("/add", userRegisteMiddleware, addUser);
+eventRoads.get("/all", getAllEvents);
+eventRoads.post("/add", userRegisteMiddleware, addEvent);
 
 module.exports = { eventRoads };

@@ -3,6 +3,7 @@ const { getAllTypeUsers, addTypeUser} = require('./typeuser.controllers');
 const { getAllTypeEvents, addTypeEvent,getOneTypeEvent } = require('./typeevent.controllers');
 const { addCountry, getAllCountries } = require('./country.controllers');
 const { addTypeActor, getAllTypeActors, getOneTypeActor } = require('./typeactor.controllers');
+const { getAllEvents, addEvent } = require('./event.controllers');
 
 
 module.exports = {
@@ -18,4 +19,6 @@ module.exports = {
     addTypeActor,
     getAllTypeActors,
     getOneTypeActor,
+    getAllEvents,
+    addEvent,
 }

@@ -3,6 +3,7 @@ const {typeEventRoads} = require('./typeevent.road');
 const {userRoads} = require('./user.road');
 const {countryRoads} = require('./country.road');
 const { typeActorRoads } = require('./typeactor.road');
+const {eventRoads} = require('./event.road');
 
 
 module.exports = {
@@ -11,4 +12,5 @@ module.exports = {
     userRoads,
     countryRoads,
     typeActorRoads,
+    eventRoads,
 }
