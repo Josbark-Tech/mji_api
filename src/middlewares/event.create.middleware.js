@@ -101,10 +101,6 @@ eventCreatedMiddleware.use(validationMiddleware, (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
-  let { type_user } = req.body;
-
-  res.type_user = type_user;
   next();
 });
 

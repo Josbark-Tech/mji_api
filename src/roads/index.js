@@ -4,6 +4,7 @@ const {userRoads} = require('./user.road');
 const {countryRoads} = require('./country.road');
 const { typeActorRoads } = require('./typeactor.road');
 const {eventRoads} = require('./event.road');
+const {authRoads} = require('./login.road');
 
 
 module.exports = {
@@ -13,4 +14,5 @@ module.exports = {
     countryRoads,
     typeActorRoads,
     eventRoads,
+    authRoads,
 }

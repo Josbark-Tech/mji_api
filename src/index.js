@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { typeUserRoads, typeEventRoads, userRoads, countryRoads, typeActorRoads, eventRoads } = require("./roads");
+const { typeUserRoads, typeEventRoads, userRoads, countryRoads, typeActorRoads, eventRoads, authRoads } = require("./roads");
 const { default: helmet } = require("helmet");
 
 const app = express();
@@ -28,5 +28,6 @@ app.use("/typeactor", typeActorRoads);
 app.use("/user", userRoads);
 app.use("/country", countryRoads);
 app.use("/event", eventRoads);
+app.use("/auth", authRoads);
 
 module.exports = app;
