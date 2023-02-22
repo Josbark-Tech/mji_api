@@ -28,7 +28,7 @@ const login = async (req, res) => {
         const jwtToken = jwt.sign(
           { id: userFind.id, email: userFind.email },
           process.env.JWT_SECRET, 
-          {expiresIn:"24h"}
+          // {expiresIn:"24h"}
         );
         res.status(200).json({
           message: "Welcomento MJI Event",

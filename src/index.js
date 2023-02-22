@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.json({ limit: "3Mb" }));
 app.use(express.urlencoded({ limit: "3Mb", extended: false }));
 
-// require("../src/auth/passport");
+require("../src/auth/passport");
 
 app.get("/", async (req, res) => {
   res.send("Welcome to event server");

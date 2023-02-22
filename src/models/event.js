@@ -66,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       country_id: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER,
       typeevent_id: DataTypes.INTEGER,
+      typeuser_id: DataTypes.INTEGER,
     },
     {
       sequelize,
