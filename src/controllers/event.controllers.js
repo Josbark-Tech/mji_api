@@ -1,5 +1,7 @@
 const { Event, sequelize } = require("../models");
 
+const numberRegex = /^\d{1,}/;
+
 const addEvent = async (req, res) => {
   const result = await sequelize.transaction(async (t) => {
 
@@ -67,7 +69,7 @@ const getAllEvents = async (req, res) => {
       await Event.findAll({
         where:{ is_private: false},
         attributes: {
-          exclude: ["deletedAt", "createdAt", "updatedAt"],
+          exclude : ["number_place", "is_private", "tab_name_category", "tab_invite", "tab_time_event", "address_event", "updatedAt", "createdAt", "user_id"],
           order: ["id", "DESC"],
         },
       })
@@ -79,21 +81,28 @@ const getAllEvents = async (req, res) => {
 };
 
 const getOneEvent = async (req, res) => {
-  const { id_user } = res;
-  try {
-    const userFind = await Event.findOne({
-      where: { id:id_user },
-      attributes: { exclude: ["deletedAt", "createdAt", "updatedAt"] },
-    });
-    if (userFind) {
-      res.status(200).json(userFind);
-    } else {
-      res.status(400).json({
-        message: `Personnel with ID ${id_user} cannot be found  `,
+  const { id } = res.params;
+  const idIsNumber = numberRegex.exec(id)
+  if (idIsNumber) {
+    try {
+      const eventFind = await Event.findOne({
+        where: { id },
+        attributes: { exclude: ["deletedAt", "createdAt", "updatedAt"] },
       });
+      if (eventFind) {
+        res.status(200).json(eventFind);
+      } else {
+        res.status(400).json({
+          message: `Event with ID ${id} cannot be found  `,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ erreur: "La requête a échouée, Veuillez tenter dans un instant" });
     }
-  } catch (error) {
-    res.status(500).json({ erreur: "La requête a échouée, Veuillez tenter dans un instant" });
+  } else {
+    res.status(400).json({
+      message: `ID ${id} is not a number`,
+    });
   }
 };
 
@@ -101,7 +110,7 @@ const getMyEvents = async (req, res) => {
   try {
     res.status(200).send(
       await Event.findAll({
-        where:{ user_id: false},
+        where:{ user_id: req.user.id,},
         attributes: {
           exclude: ["deletedAt", "createdAt", "updatedAt"],
           order: ["id", "DESC"],
@@ -114,19 +123,27 @@ const getMyEvents = async (req, res) => {
   }
 };
 const getOneEventCreated = async (req, res) => {
-  try {
-    res.status(200).send(
-      await Event.findAll({
-        where:{ user_id: false},
-        attributes: {
-          exclude: ["deletedAt", "createdAt", "updatedAt"],
-          order: ["id", "DESC"],
-        },
-      })
-    );
-    
-  } catch (error) {
-    res.status(500).json({ erreur: "La requête a échouée, Veuillez tenter dans un instant" });
+  
+  const { id } = req.params;
+  const idIsNumber = numberRegex.exec(id)
+  if (idIsNumber) {
+    try {
+      res.status(200).send(
+        await Event.findOne({
+          where:{ id},
+          attributes: {
+            exclude: ["deletedAt", "createdAt", "updatedAt"],
+          },
+        })
+      );
+      
+    } catch (error) {
+      res.status(500).json({ erreur: "La requête a échouée, Veuillez tenter dans un instant" });
+    }
+  }else {
+    res.status(400).json({
+      message: `ID ${id} is not available`,
+    });
   }
 };
 
