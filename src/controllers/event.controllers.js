@@ -1,6 +1,6 @@
-const { Event, sequelize } = require("../models");
+const { Event, To_participate, sequelize } = require("../models");
 
-const numberRegex = /^\d{1,}/;
+const numberRegex = /^\d{1,}$/;
 
 const addEvent = async (req, res) => {
   const result = await sequelize.transaction(async (t) => {
@@ -130,7 +130,7 @@ const getOneEventCreated = async (req, res) => {
     try {
       res.status(200).send(
         await Event.findOne({
-          where:{ id},
+          where:{id},
           attributes: {
             exclude: ["deletedAt", "createdAt", "updatedAt"],
           },
@@ -146,6 +146,92 @@ const getOneEventCreated = async (req, res) => {
     });
   }
 };
+const participateInPublicEvent = async (req, res) => {
+  
+  const { event_id, participate_in } = req.body;
+  const idIsNumber = numberRegex.exec(event_id)
+  if (idIsNumber) {
+    try {
+      const eventFind = await Event.findOne({
+        where:{id:event_id,is_private:false},
+        attributes: {
+          exclude: ["deletedAt", "createdAt", "updatedAt"],
+        },
+      })
+      if(eventFind){
+        const numberParticipants = await To_participate.count({
+          where :{
+            event_id : event_id,
+          }
+        });
+        const numberPlaces = eventFind.number_place;
+        if(numberParticipants == numberPlaces){
+          return res.status(200).send({
+            message: `Sorry, you can't not participate. because the number of participants is reached`,
+          });
+        }else{
+          const userIsParticipant = await To_participate.findOne({
+            where :{
+              event_id,
+              user_id: req.user.id,
+            }
+          });
+          if(userIsParticipant){
+            if(participate_in === true){
+              return res.status(200).send(
+                await To_participate.create({
+                  event_id,
+                  user_id: req.user.id,
+                })
+              )
+            }else{
+              const userToListParticipates = 
+              await To_participate.destroy({
+                where: {
+                  id: userIsParticipant.id
+                }
+              })
+              if(userToListParticipates){
+               res.status(200).send({
+                message : "User deleted to list participants"
+                });
+              }else{
+                return res.status(500).json({
+                  message: `User with ID ${userIsParticipant.user_id} cannot be deleted, please try again`,
+                });
+              }
+            }
+          }else{
+            const userAddedToList =  
+            await To_participate.create({
+              event_id,
+              user_id: req.user.id,
+            }); 
+            if (userAddedToList) {
+              return res.status(200).json({
+                message: `User ${req.user.name_user} added to list`,
+              });
+            } else {
+              return res.status(400).json({
+                message: "Error add user to list, please try again",
+              });
+            }
+          }
+        }
+      }else{
+        res.status(400).json({
+          message: `Event with ID ${event_id} cannot be found or is not a public event`,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ erreur: "La requête a échouée, Veuillez tenter dans un instant" });
+    }
+  }else {
+    res.status(400).json({
+      message: `ID ${event_id} is not available`,
+    });
+  }
+};
 
 module.exports = {
   getAllEvents,
@@ -153,4 +239,5 @@ module.exports = {
   addEvent,
   getMyEvents,
   getOneEventCreated,
+  participateInPublicEvent,
 };
