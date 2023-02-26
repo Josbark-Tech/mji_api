@@ -78,33 +78,33 @@ const validationMiddleware = [
     .trim()
     .escape(),
   body("tab_name_ticket")
-    .isJSON()
-    .withMessage("It is not a JSON")
-    .isLength({ min: 2 })
-    .withMessage("must be at least 2 chars long")
+    // .isJSON()
+    // .withMessage("It is not a JSON")
+    // .isLength({ min: 2 })
+    // .withMessage("must be at least 2 chars long")
     .trim()
     .escape(),
-  body("tab_name_category")
-    .isJSON()
-    .withMessage("It is not a JSON")
-    .isLength({ min: 2 })
-    .withMessage("must be at least 2 chars long")
-    .trim()
-    .escape(),
-  body("tab_price_ticket")
-    .isJSON()
-    .withMessage("It is not a JSON")
-    .isLength({ min: 2 })
-    .withMessage("must be at least 2 chars long")
-    .trim()
-    .escape(),
-  body("tab_invite")
-    .isJSON()
-    .withMessage("It is not a JSON")
-    .isLength({ min: 2 })
-    .withMessage("must be at least 2 chars long")
-    .trim()
-    .escape(),
+//   body("tab_name_category")
+//     // .isJSON()
+//     // .withMessage("It is not a JSON")
+//     .isLength({ min: 2 })
+//     .withMessage("must be at least 2 chars long")
+//     .trim()
+//     .escape(),
+//   body("tab_price_ticket")
+//     // .isJSON()
+//     // .withMessage("It is not a JSON")
+//     .isLength({ min: 2 })
+//     .withMessage("must be at least 2 chars long")
+//     .trim()
+//     .escape(),
+//   body("tab_invite")
+//     .isJSON()
+//     .withMessage("It is not a JSON")
+//     .isLength({ min: 2 })
+//     .withMessage("must be at least 2 chars long")
+//     .trim()
+//     .escape(),
 ];
 
 eventCreatedMiddleware.use(validationMiddleware, (req, res, next) => {

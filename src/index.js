@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { typeUserRoads, typeEventRoads, userRoads, countryRoads, typeActorRoads, eventRoads, authRoads } = require("./roads");
 const { default: helmet } = require("helmet");
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -11,10 +12,11 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionSuccessStatus: 200,
 };
+
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(express.json({ limit: "3Mb" }));
-app.use(express.urlencoded({ limit: "3Mb", extended: false }));
+app.use(express.urlencoded({ limit: "3Mb", extended: true }));
 
 require("../src/auth/passport");
 
