@@ -43,6 +43,9 @@ module.exports = (sequelize, DataTypes) => {
       models.Event.hasMany(models.File_ticket, {
         foreignKey: 'event_id'
       });
+      models.Event.hasMany(models.Guest, {
+        foreignKey: 'event_id'
+      });
     }
   }
   Event.init(

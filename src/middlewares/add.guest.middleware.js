@@ -5,15 +5,13 @@ const { body, validationResult } = require("express-validator");
 const guestsMiddleware = express();
 
 const validationMiddlewares = [
-  body("list_guest")
+  body("name_guest")
     .notEmpty()
     .withMessage("Cannot be empty")
-    .isLength({ min: 1 })
-    .withMessage("must be at least 1 chars long")
-    .isArray()
-    .withMessage("this data is not a array")
-    .trim(),
-    // .escape(),
+    .isLength({ min: 2 })
+    .withMessage("must be at least 2 chars long")
+    .trim()
+    .escape(),
   body("event_id")
     .notEmpty()
     .withMessage("Cannot be empty")
@@ -21,6 +19,18 @@ const validationMiddlewares = [
     .withMessage("must be at least 1 chars long")
     .isNumeric()
     .withMessage("It is not a number")
+    .trim()
+    .escape(),
+  body("phone_number")
+    .notEmpty()
+    .withMessage("Cannot be empty")
+    .isLength({ min: 2 })
+    .withMessage("must be at least 2 chars long")
+    // .isMobilePhone()
+    // .withMessage("This is not a mobile number")
+    .trim()
+    .escape(),
+  body("description")
     .trim()
     .escape(),
 ];

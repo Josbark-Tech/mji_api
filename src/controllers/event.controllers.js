@@ -1,5 +1,5 @@
 const { type } = require("os");
-const { Event, To_participate, sequelize } = require("../models");
+const { Event, To_participate, Guest, sequelize } = require("../models");
 // "list_guest":[{"nom" : "Jea000", "number":"+243825135297"},{"nom" : "Jeanp", "number":"+243825135290"}],
 
 const numberRegex = /^\d{1,}$/;
@@ -236,7 +236,7 @@ const participateInPublicEvent = async (req, res) => {
 };
 const addGuests = async (req, res) => {
   
-  const { event_id, list_guest } = req.body;
+  const { event_id, name_guest, phone_number, description } = req.body;
   const idIsNumber = numberRegex.exec(event_id)
   if (idIsNumber) {
     try {
@@ -247,120 +247,32 @@ const addGuests = async (req, res) => {
         },
       })
       if(eventFind){
-        const guestList = await Event.findOne({
+        const numberParticipants = await Guest.count({
           where :{
-            id: event_id,
+            event_id : event_id,
           }
         });
-        console.log(guestList.tab_invite)
-        if(guestList.tab_invite.length == 0){
-          const addGuestQuery = await Event.update(
-            { tab_invite : JSON.stringify(list_guest)},
-            {
-              where: {
-                id : event_id,
-              }
-            });          
-          res.status(200).send({
-            message : addGuestQuery.length,
-          })
-        }else {
-        const arrayGuests = JSON.parse("[" + guestList.tab_invite + "]");
-         console.log("arrayGuests ",arrayGuests);
-          const addGuestQuery = await Event.update(
-            {  tab_invite : JSON.stringify(arrayGuests.concat(list_guest)), },
-            {
-              where: {
-                id : event_id,
-              }
+        if(numberParticipants <= eventFind.number_place){
+          const resQuery = await Guest.create({
+            event_id,
+            name_guest,
+            phone_number,
+            description
+          });
+          if (resQuery) {
+            return res.status(200).json({
+              message: `Guest ${resQuery.name_guest} added`,
             });
-          res.status(200).send({
-            message : addGuestQuery,
-          })
+          } else {
+            return res.status(400).json({
+              message: "Error add guest, please try again",
+            });
+          }
+        }else {
+          return res.status(400).json({
+            message: `Sorry, you can't not add the guest. because the number of participants is reached`,
+          });
         }
-        // console.log(arrayGuestss.length);
-        // res.send({
-        //   msg : arrayGuestss,
-        // })
-
-        // if(numberParticipants == eventFind.number_place){
-        //   return res.status(200).send({
-        //     message: `Sorry, you can't not add the guest. because the number of participants is reached`,
-        //   });
-        // }else{
-        //   const guestList = await Event.findOne({
-        //     where :{
-        //       id: event_id,
-        //     }
-        //   });
-        //   var arrayGuests = JSON.parse("[" + guestList.tab_invite + "]");
-        //   if(arrayGuests.length == 1){
-        //     const addGuestQuery = await Event.update(
-        //       {  tab_invite : JSON.stringify(list_guest), },
-        //       {
-        //         where: {
-        //           id : event_id,
-        //         }
-        //       });
-        //     console.log(addGuestQuery)
-        //     res.status(200).send({
-        //       message : addGuestQuery,
-        //     })
-        //   }else{
-        //     const addGuestQuery = await Event.update(
-        //       {  tab_invite : JSON.stringify(arrayGuests.concat(list_guest)), },
-        //       {
-        //         where: {
-        //           id : event_id,
-        //         }
-        //       });
-        //     console.log(addGuestQuery)
-        //     res.status(200).send({
-        //       message : addGuestQuery,
-        //     })
-        //   }
-        //   // if(guestList){
-        //   //   if(participate_in === true){
-        //   //     return res.status(200).send(
-        //   //       await To_participate.create({
-        //   //         event_id,
-        //   //         user_id: req.user.id,
-        //   //       })
-        //   //     )
-        //   //   }else{
-        //   //     const userToListParticipates = 
-        //   //     await To_participate.destroy({
-        //   //       where: {
-        //   //         id: guestList.id
-        //   //       }
-        //   //     })
-        //   //     if(userToListParticipates){
-        //   //      res.status(200).send({
-        //   //       message : "User deleted to list participants"
-        //   //       });
-        //   //     }else{
-        //   //       return res.status(500).json({
-        //   //         message: `User with ID ${guestList.user_id} cannot be deleted, please try again`,
-        //   //       });
-        //   //     }
-        //   //   }
-        //   // }else{
-        //   //   const userAddedToList =  
-        //   //   await To_participate.create({
-        //   //     event_id,
-        //   //     user_id: req.user.id,
-        //   //   }); 
-        //   //   if (userAddedToList) {
-        //   //     return res.status(200).json({
-        //   //       message: `User ${req.user.name_user} added to list`,
-        //   //     });
-        //   //   } else {
-        //   //     return res.status(400).json({
-        //   //       message: "Error add user to list, please try again",
-        //   //     });
-        //   //   }
-        //   // }
-        // }
       }else{
         res.status(400).json({
           message: `Event with ID ${event_id} cannot be found or you are not the owner of the event`,

@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Guest.init(
     {
-      user_id: DataTypes.INTEGER,
+      event_id: DataTypes.INTEGER,
       name_guest: DataTypes.STRING,
       phone_number: DataTypes.STRING,
       description :DataTypes.STRING,
