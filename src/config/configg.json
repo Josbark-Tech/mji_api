@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "event_mji",
+    "database": "event_mjii",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
